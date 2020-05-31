@@ -1,6 +1,15 @@
 const Product = require('../models/products')
 const Order = require('../models/order')
 
+exports.getIndex = async (req, res) => {
+  const products = await Product.fetchAll()
+  res.render('shop/index', {
+    pageTitle: 'Shop',
+    products: products,
+    path: '/'
+  })
+}
+
 exports.getProducts = async (req, res) => {
   const products = await Product.fetchAll()
   res.render('shop/product-list', {
