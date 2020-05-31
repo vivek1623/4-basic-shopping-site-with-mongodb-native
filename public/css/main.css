@@ -31,6 +31,10 @@ form {
   height: 100%;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .main-header {
   position: fixed;
   top: 0;
@@ -228,4 +232,11 @@ form {
   #side-menu-toggle {
     display: none;
   }
+}
+
+.not-found-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
