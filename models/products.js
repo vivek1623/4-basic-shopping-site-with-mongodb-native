@@ -15,6 +15,11 @@ class Product {
     return db.collection('products').insertOne(this)
   }
 
+  static findById(productId){
+    const db = getDB()
+    return db.collection('products').find({_id: new ObjectId(productId)}).next()
+  }
+
   static fetchAll(){
     const db = getDB()
     return db.collection('products').find().toArray()
