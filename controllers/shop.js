@@ -58,10 +58,24 @@ exports.postOrder = async (req, res) => {
     const products = await req.user.getCart()
     if (!products)
       return res.redirect('/products')
-    const order = new Order(products, req.user._id, req.user.name)
+    const order = new Order(products, req.user._id)
     await order.save()
     await req.user.clearCart()
     res.redirect('/orders')
+  } catch (e) {
+    console.log('error', e)
+    res.redirect('/products')
+  }
+}
+
+exports.getOrders = async (req, res) => {
+  try {
+    const orders = await Order.findOrderByUserId(req.user._id)
+    res.render('shop/orders', {
+      path: '/orders',
+      pageTitle: 'Your Orders',
+      orders: orders
+    })
   } catch (e) {
     console.log('error', e)
     res.redirect('/products')
