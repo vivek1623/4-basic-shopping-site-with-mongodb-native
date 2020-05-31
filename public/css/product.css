@@ -2,18 +2,19 @@
     width: 20rem;
     max-width: 90%;
     margin: auto;
+    display: block;
 }
 
 .product-item {
-    margin: 5px;
     width: 20rem;
     max-width: 95%;
+    margin: 1rem;
 }
 
 .product__title {
-    text-transform: capitalize;
     font-size: 1.2rem;
     text-align: center;
+    text-transform: capitalize;
 }
 
 .product__price {
@@ -24,11 +25,4 @@
 
 .product__description {
     text-align: center;
-}
-
-.product-list-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
 }

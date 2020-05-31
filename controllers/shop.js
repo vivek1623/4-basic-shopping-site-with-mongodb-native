@@ -17,6 +17,18 @@ exports.getProducts = async (req, res) => {
   })
 }
 
+exports.getProduct = async (req, res) => {
+  if (req.params.id) {
+    const product = await Product.findById(req.params.id)
+    res.render('shop/product-details', {
+      pageTitle: 'Product Details',
+      product: product,
+      path: '/product-details'
+    })
+  } else
+    res.redirect('/products')
+}
+
 // exports.addToCart = async (req, res) => {
 //   if (!req.query._id)
 //     return res.redirect('/products')
