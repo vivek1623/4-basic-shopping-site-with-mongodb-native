@@ -8,9 +8,9 @@ router.get('/products', shopControllers.getProducts)
 
 router.get('/products/:id', shopControllers.getProduct)
 
-// router.get('/cart', shopControllers.getCart)
-
 router.post('/cart', shopControllers.postCart)
+
+router.get('/cart', shopControllers.getCart)
 
 // router.get('/checkout', shopControllers.getCheckout)
 
