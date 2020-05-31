@@ -1,4 +1,4 @@
-// const Product = require('../models/products')
+const Product = require('../models/products')
 // const Cart = require('../models/cart')
 
 // exports.getIndex = async (req, res) => {
@@ -8,14 +8,14 @@
 //   })
 // }
 
-// exports.getProducts = async (req, res) => {
-//   const products = await Product.fetchAll()
-//   res.render('shop/product-list', {
-//     pageTitle: 'All product',
-//     products: products,
-//     path: '/products'
-//   })
-// }
+exports.getProducts = async (req, res) => {
+  const products = await Product.fetchAll()
+  res.render('shop/product-list', {
+    pageTitle: 'All product',
+    products: products,
+    path: '/products'
+  })
+}
 
 // exports.addToCart = async (req, res) => {
 //   if (!req.query._id)

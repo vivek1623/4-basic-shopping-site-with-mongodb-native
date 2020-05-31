@@ -1,4 +1,4 @@
-// const Product = require('../models/products')
+const Product = require('../models/products')
 // const Cart = require('../models/cart')
 
 exports.getAddProduct = (req, res) => {
@@ -6,6 +6,29 @@ exports.getAddProduct = (req, res) => {
     pageTitle: 'Add Product',
     path: '/admin/add-product',
     editing: false
+  })
+}
+
+exports.postAddProduct = async (req, res) => {
+  const title = req.body.title
+  const imageUrl = req.body.imageUrl
+  const price = req.body.price
+  const description = req.body.description
+  try {
+    const product = new Product(title, imageUrl, price, description)
+    await product.save()
+    res.redirect('/admin/products')
+  } catch (e){
+    res.redirect('/admin/add-product')
+  }
+}
+
+exports.getProducts = async (req, res) => {
+  const products = await Product.fetchAll()
+  res.render('admin/products', {
+    pageTitle: 'All admin products',
+    products: products,
+    path: '/admin/products'
   })
 }
 
@@ -38,14 +61,6 @@ exports.getAddProduct = (req, res) => {
 //   }
 // }
 
-// exports.getProducts = async (req, res) => {
-//   const products = await Product.fetchAll()
-//   res.render('admin/products', {
-//     pageTitle: 'All admin products',
-//     products: products,
-//     path: '/admin/products'
-//   })
-// }
 
 // exports.deleteProduct = async (req, res) => {
 //   if (req.query._id) {

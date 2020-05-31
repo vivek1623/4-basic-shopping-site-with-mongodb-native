@@ -1,76 +1,24 @@
-// const fs = require('fs')
-// const path = require('path')
+const { ObjectId } = require('mongodb')
+const { getDB } = require('../utils/database')
+class Product {
+  constructor(title, imageUrl, price, description, id) {
+    this.title = title
+    this.price = price
+    this.description = description
+    this.imageUrl = imageUrl
+    this._id = id ? new ObjectId(id) : null
+    // this.userId = userId
+  }
 
-// const productFilePath = path.join(__dirname, '../', 'database', 'products.json')
+  save() {
+    const db = getDB()
+    return db.collection('products').insertOne(this)
+  }
 
-// const readProductFromFile = callback => {
-//   fs.readFile(productFilePath, (err, fileContent) => {
-//     let products = []
-//     if (!err)
-//       products = JSON.parse(fileContent)
-//     callback(products)
-//   })
-// }
+  static fetchAll(){
+    const db = getDB()
+    return db.collection('products').find().toArray()
+  }
+}
 
-// const writeProductInFile = products => {
-//   fs.writeFile(productFilePath, JSON.stringify(products), err => {
-//     console.log(err)
-//   })
-// }
-
-// module.exports = class Product {
-//   constructor({ title, price, imageUrl, description }) {
-//     this.title = title
-//     this.price = price
-//     this.imageUrl = imageUrl
-//     this.description = description
-//   }
-
-//   save() {
-//     readProductFromFile(products => {
-//       this._id = Math.random().toString()
-//       products.push(this)
-//       writeProductInFile(products)
-//     })
-//   }
-
-//   static fetchAll() {
-//     return new Promise(readProductFromFile)
-//   }
-
-//   static findById(_id) {
-//     return new Promise((resolve, reject) => {
-//       readProductFromFile(products => {
-//         const product = products.find(item => item._id === _id)
-//         resolve(product)
-//       })
-//     })
-//   }
-
-//   static findAndUpdate(product) {
-//     return new Promise((resolve, reject) => {
-//       readProductFromFile(products => {
-//         const index = products.findIndex(item => item._id === product._id)
-//         if (index !== -1) {
-//           products[index] = product
-//           writeProductInFile(products)
-//           resolve(products[index])
-//         } else resolve(null)
-//       })
-//     })
-//   }
-
-//   static findByIdAndDelete(_id) {
-//     return new Promise(resolve => {
-//       readProductFromFile(products => {
-//         const index = products.findIndex(item => item._id === _id)
-//         if (index !== -1) {
-//           const product = products[index]
-//           products.splice(index, 1)[0]
-//           writeProductInFile(products)
-//           resolve(product)
-//         } else resolve(null)
-//       })
-//     })
-//   }
-// }
+module.exports = Product
