@@ -1,4 +1,5 @@
 const Product = require('../models/products')
+const Order = require('../models/order')
 
 exports.getProducts = async (req, res) => {
   const products = await Product.fetchAll()
@@ -46,12 +47,23 @@ exports.getCart = async (req, res) => {
 
 exports.postCartProductDelete = async (req, res) => {
   const productId = req.body.productId
-  if(!productId)
+  if (!productId)
     return res.redirect('/products')
   await req.user.deleteItemFromCart(productId)
   res.redirect('/cart')
 }
 
 exports.postOrder = async (req, res) => {
-
+  try {
+    const products = await req.user.getCart()
+    if (!products)
+      return res.redirect('/products')
+    const order = new Order(products, req.user._id, req.user.name)
+    await order.save()
+    await req.user.clearCart()
+    res.redirect('/orders')
+  } catch (e) {
+    console.log('error', e)
+    res.redirect('/products')
+  }
 }

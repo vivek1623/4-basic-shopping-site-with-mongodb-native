@@ -26,6 +26,11 @@ class User {
     return db.collection('users').updateOne({ _id: new Object(this._id) }, { $set: { cart: updatedCart } })
   }
 
+  clearCart() {
+    const db = getDB()
+    return db.collection('users').updateOne({ _id: new ObjectId(this._id) }, { $set: { cart: { items: [] } } })
+  }
+
   async getCart() {
     const db = getDB()
     const productIds = this.cart.items.map(item => item.productId)
