@@ -12,15 +12,17 @@ class Product {
 
   save() {
     const db = getDB()
+    if (this._id)
+      return db.collection('products').updateOne({ _id: this._id }, { $set: this })
     return db.collection('products').insertOne(this)
   }
 
-  static findById(productId){
+  static findById(productId) {
     const db = getDB()
-    return db.collection('products').find({_id: new ObjectId(productId)}).next()
+    return db.collection('products').find({ _id: new ObjectId(productId) }).next()
   }
 
-  static fetchAll(){
+  static fetchAll() {
     const db = getDB()
     return db.collection('products').find().toArray()
   }

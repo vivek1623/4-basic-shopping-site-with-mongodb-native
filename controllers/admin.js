@@ -45,6 +45,21 @@ exports.getEditProduct = async (req, res) => {
   })
 }
 
+exports.postEditProduct = async (req, res) => {
+  const title = req.body.title
+  const imageUrl = req.body.imageUrl
+  const price = req.body.price
+  const description = req.body.description
+  const id = req.body._id
+  try {
+    const product = new Product(title, imageUrl, price, description, id)
+    await product.save()
+    res.redirect('/admin/products')
+  } catch (e){
+    res.redirect('/admin/add-product')
+  }
+}
+
 // exports.addOrUpdateProduct = async (req, res) => {
 //   if (req.body.title && req.body.title.trim().length > 0) {
 //     if (req.query._id) {
