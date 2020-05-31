@@ -26,16 +26,23 @@ class User {
     return db.collection('users').updateOne({ _id: new Object(this._id) }, { $set: { cart: updatedCart } })
   }
 
-  async getCart(){
+  async getCart() {
     const db = getDB()
     const productIds = this.cart.items.map(item => item.productId)
-    const products = await db.collection('products').find({_id: {$in: productIds}}).toArray()
+    const products = await db.collection('products').find({ _id: { $in: productIds } }).toArray()
     return products.map(p => {
       return {
         ...p,
         quantity: this.cart.items.find(i => i.productId.toString() === p._id.toString()).quantity
       }
     })
+  }
+
+  deleteItemFromCart(productId) {
+    const filteredCartItem = this.cart.items.filter(item => item.productId.toString() !== productId.toString())
+    const filteredCart = { items: filteredCartItem }
+    const db = getDB()
+    return db.collection('users').updateOne({ _id: new ObjectId(this._id) }, { $set: { cart: filteredCart } })
   }
 
   static findById(userId) {

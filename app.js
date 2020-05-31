@@ -22,7 +22,7 @@ app.use(async (req, res, next) => {
   try {
     // const user = new User('vivasi', 'vivasi1623@gmail.com', { items: [] })
     // user.save()
-    const user = await User.findById('5ed3a71d026fd642e8b1627c')
+    const user = await User.findById('5ed3c661ab6c0952c258015f')
     req.user = new User(user.name, user.email, user.cart, user._id)
     next()
   } catch (e) {
