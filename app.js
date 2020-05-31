@@ -3,6 +3,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 
 const { mongoConnect } = require('./utils/database')
+const User = require('./models/user')
 const adminRouter = require('./routes/admin')
 const shopRouter = require('./routes/shop')
 
@@ -16,6 +17,18 @@ app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(async (req, res, next) => {
+  try {
+    // const user = new User('vivasi', 'vivasi1623@gmail.com', { items: [] })
+    // user.save()
+    const user = await User.findById('5ed3a71d026fd642e8b1627c')
+    req.user = new User(user.name, user.email, user.cart, user._id)
+    next()
+  } catch (e) {
+    console.log('error', e)
+  }
+})
 
 app.use('/admin', adminRouter)
 app.use(shopRouter)
