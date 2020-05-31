@@ -4,6 +4,9 @@ const adminControllers = require('../controllers/admin')
 
 const router = express.Router()
 
+// /admin/products => GET
+router.get('/products', adminControllers.getProducts)
+
 // /admin/add-product => GET
 router.get('/add-product', adminControllers.getAddProduct)
 
@@ -16,10 +19,7 @@ router.get('/edit-product/:id', adminControllers.getEditProduct)
 // /admin/edit-product => POST
 router.post('/edit-product', adminControllers.postEditProduct)
 
-// router.post('/delete-product', adminControllers.deleteProduct)
-
-
-
-router.get('/products', adminControllers.getProducts)
+// /admin/delete-product => POST
+router.post('/delete-product', adminControllers.postDeleteProduct)
 
 module.exports = router

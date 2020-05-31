@@ -1,5 +1,4 @@
 const Product = require('../models/products')
-// const Cart = require('../models/cart')
 
 exports.getAddProduct = (req, res) => {
   res.render('admin/add-product', {
@@ -18,7 +17,7 @@ exports.postAddProduct = async (req, res) => {
     const product = new Product(title, imageUrl, price, description)
     await product.save()
     res.redirect('/admin/products')
-  } catch (e){
+  } catch (e) {
     res.redirect('/admin/add-product')
   }
 }
@@ -55,32 +54,19 @@ exports.postEditProduct = async (req, res) => {
     const product = new Product(title, imageUrl, price, description, id)
     await product.save()
     res.redirect('/admin/products')
-  } catch (e){
+  } catch (e) {
     res.redirect('/admin/add-product')
   }
 }
 
-// exports.addOrUpdateProduct = async (req, res) => {
-//   if (req.body.title && req.body.title.trim().length > 0) {
-//     if (req.query._id) {
-//       const product = await Product.findAndUpdate({ ...req.body, _id: req.query._id })
-//       if (!product)
-//         res.redirect('/admin/add-product')
-//     } else {
-//       const product = new Product(req.body)
-//       product.save()
-//     }
-//     res.redirect('/admin/products')
-//   } else {
-//     res.redirect('/admin/add-product')
-//   }
-// }
 
-
-// exports.deleteProduct = async (req, res) => {
-//   if (req.query._id) {
-//     await Product.findByIdAndDelete(req.query._id)
-//     Cart.findByIdAndRemove(req.query._id)
-//   }
-//   res.redirect('/admin/products')
-// }
+exports.postDeleteProduct = async (req, res) => {
+  try {
+    if (req.body._id)
+      await Product.deleteById(req.body._id)
+    res.redirect('/admin/products')
+  } catch (e) {
+    console.log('error', e)
+    res.redirect('/admin/products')
+  }
+}

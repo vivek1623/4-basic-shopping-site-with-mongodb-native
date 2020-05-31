@@ -22,6 +22,11 @@ class Product {
     return db.collection('products').find({ _id: new ObjectId(productId) }).next()
   }
 
+  static deleteById(productId) {
+    const db = getDB()
+    return db.collection('products').deleteOne({ _id: new ObjectId(productId) })
+  }
+
   static fetchAll() {
     const db = getDB()
     return db.collection('products').find().toArray()
